@@ -1,6 +1,6 @@
 {
   "name": "questionnair",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Typescript friendly, Material UI Stepper implementation in React Native",
   "main": "index.js",
   "private": false,
