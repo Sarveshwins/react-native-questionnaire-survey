@@ -1,7 +1,9 @@
 {
   "name": "questionnair",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Typescript friendly, Material UI Stepper implementation in React Native",
+  "main": "index.js",
+  "private": false,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -30,5 +32,20 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sarveshwins/react-native-questionnaire-survey.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "question"
+  ],
+  "author": "Sarvesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sarveshwins/react-native-questionnaire-survey/issues"
+  },
+  "homepage": "https://github.com/Sarveshwins/react-native-questionnaire-survey#readme"
 }
