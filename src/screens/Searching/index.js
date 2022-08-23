@@ -13,7 +13,7 @@ import Searching from "../../components/Searching";
 import AntDesign from "react-native-vector-icons/AntDesign";
 const SearchingAndListing = () => {
   const [searching, setSearching] = useState("");
-  const listing = ["name", "email", "phone", "company", "gender"];
+  const listing = ["name"];
   const render = [
     {
       title: "Name",
@@ -31,14 +31,14 @@ const SearchingAndListing = () => {
       title: "Company",
       value: "company",
     },
-    {
-      title: "Gender",
-      value: "gender",
-    },
     // {
-    //   title: "Eye Color",
-    //   value: "eyeColor",
+    //   title: "Gender",
+    //   value: "gender",
     // },
+    {
+      title: "Eye Color",
+      value: "eyeColor",
+    },
   ];
   const onSearching = (item, field, sort) => {
     return onSortingByField(field, sort).filter((data) => {
@@ -92,12 +92,14 @@ const SearchingAndListing = () => {
           </Pressable>
         </View>
         <FlatList
-          data={onMultipleSearching(searching, "company", "desc")}
+          data={onMultipleSearching(searching, "company", "asc")}
           renderItem={({ item }) => (
             <Searching searching={item} render={render} />
           )}
           keyExtractor={(item) => item._id}
         />
+
+        {/* <Searching data-source={data}  render={render} onSortingByField={sort} /> */}
       </View>
     </SafeAreaView>
   );

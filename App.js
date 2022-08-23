@@ -7,9 +7,8 @@ import SearchingAndListing from "./src/screens/Searching";
 const App = () => {
   return (
     <>
-      {/* <HorizontalScreen /> */}
+      <HorizontalScreen />
       {/* <VerticalScreen /> */}
-      <SearchingAndListing />
     </>
   );
 };

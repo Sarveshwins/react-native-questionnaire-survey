@@ -14,6 +14,7 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import RadioButton from "../../components/RadioButton";
 import IndicatorProgress from "../../components/Indicator";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const HorizontalScreen = () => {
   const [questions, setQuestions] = useState([]);
@@ -24,11 +25,15 @@ const HorizontalScreen = () => {
   const [focused, setFocused] = useState(false);
   const [inputField, setInputField] = useState([]);
   const [indicator, setIndicator] = useState(100 / Questions.length);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (indexNumber >= 0 && indexNumber < Questions.length) {
+    // if (indexNumber >= 0 && indexNumber < Questions.length) {
+
+    if (indexNumber < Questions.length) {
       setQuestions(Questions[indexNumber]);
     }
+    // }
     if (questions?.questionType === "MULTIINPUT") {
       setMultiFocus(
         questions?.subQuestion.map((questions) => {
@@ -49,13 +54,15 @@ const HorizontalScreen = () => {
       Alert.alert("you cannot continue without attempting the question");
       return;
     }
-    setIndexNumber(indexNumber + 1);
-    if (indexNumber <= Questions?.length - 1) {
+    if (indexNumber < Questions.length - 1) {
+      setIndexNumber(indexNumber + 1);
       setIndicator((prevIndicator) => {
-        if (indexNumber < Questions.length) {
+        if (indexNumber < Questions.length - 1) {
           return prevIndicator + Math.floor(100 / Questions.length);
         }
       });
+    }
+    if (indexNumber < Questions?.length - 1) {
       if (questions.questionType === "RADIOBUTTON") {
         setScore({
           ...score,
@@ -90,7 +97,8 @@ const HorizontalScreen = () => {
         });
       }
       setSelectedOption("");
-    } else {
+    }
+    if (indexNumber + 1 === Questions.length) {
       Alert.alert("You have finished the quiz");
     }
   };
@@ -138,7 +146,7 @@ const HorizontalScreen = () => {
       }
     });
   };
-
+  console.log(score);
   return (
     <SafeAreaView style={styles.container}>
       <IndicatorProgress
@@ -196,33 +204,81 @@ const HorizontalScreen = () => {
               <View key={index}>
                 <Text style={styles.optionText}>{options?.label}</Text>
 
-                <TextInput
-                  autoCapitalize="none"
-                  placeholder={options?.placeholder}
-                  onChangeText={(text) => {
-                    options.answer = text;
-                  }}
-                  onBlur={() =>
-                    isMultiSelected({
-                      id: options?.id,
-                    })
-                  }
-                  onFocus={() =>
-                    isMultiSelectedFocus({
-                      id: options?.id,
-                    })
-                  }
-                  style={[
-                    styles.focusField,
-                    {
-                      borderColor: inputFieldSelected({
+                {options?.type === "select" ? (
+                  <>
+                    <Pressable
+                      onPress={() => setOpen(!open)}
+                      style={{
+                        width: "100%",
+                        height: 40,
+                        borderRadius: 5,
+
+                        borderWidth: 0.5,
+                        paddingHorizontal: 10,
+                        borderColor: "#C4C4C4",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {!options.answer ? (
+                        <Text>Select your gender</Text>
+                      ) : (
+                        <Text>{options.answer}</Text>
+                      )}
+                    </Pressable>
+                    {open && (
+                      <View style={{ width: "100%" }}>
+                        {options.options.map((item) => (
+                          <Pressable
+                            onPress={() => {
+                              options.answer = item?.label;
+                              setOpen(false);
+                            }}
+                            style={{
+                              width: "100%",
+                              height: 40,
+                              borderRadius: 5,
+                              borderWidth: 0.5,
+                              paddingHorizontal: 10,
+                              borderColor: "#C4C4C4",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Text>{item?.label}</Text>
+                          </Pressable>
+                        ))}
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <TextInput
+                    autoCapitalize="none"
+                    autoCorrect={"none"}
+                    placeholder={options?.placeholder}
+                    onChangeText={(text) => {
+                      options.answer = text;
+                    }}
+                    onBlur={() =>
+                      isMultiSelected({
                         id: options?.id,
                       })
-                        ? "#C057D8"
-                        : "#C4C4C4",
-                    },
-                  ]}
-                />
+                    }
+                    onFocus={() =>
+                      isMultiSelectedFocus({
+                        id: options?.id,
+                      })
+                    }
+                    style={[
+                      styles.focusField,
+                      {
+                        borderColor: inputFieldSelected({
+                          id: options?.id,
+                        })
+                          ? "#C057D8"
+                          : "#C4C4C4",
+                      },
+                    ]}
+                  />
+                )}
               </View>
             ))}
           </View>
